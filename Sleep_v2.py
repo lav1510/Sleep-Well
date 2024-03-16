@@ -1,10 +1,14 @@
 from gpiozero import MotionSensor, DigitalInputDevice
+from statistics import mean
+import threading
 import adafruit_dht
 import board
 import time
 
 #definirea variabilelor
 modul_miscare_ir_activat = 0
+medie_temp_final = None
+medie_umid_final = None
 
 #definirea moulelor cu senzori
 modul_microfon = DigitalInputDevice(23)
@@ -25,6 +29,7 @@ def citeste_sunet():
         print("sunet!")
         
 def citeste_miscare_pir():
+        print("Se asteapta miscare PIR.")
         modul_miscare_ir.wait_for_active()
         print("PIR a detectat miscare!")
         modul_miscare_ir_activat = 1
@@ -56,6 +61,37 @@ def citeste_temperatura_umiditate():
 
             time.sleep(2.0)
 
+def monitorizeaza_temperatura_umiditate(stare):
+        print("Monitorizare temperatura si umiditate.")
+        temperatura_anterioara = 0
+        umiditate_anterioara = 0
+        
+        lista_temp = []
+        lista_umid = []
+
+        while not stare.is_set():
+                (temperatura, umiditate) = citeste_temperatura_umiditate()
+                print( "Temperatura: {:.1f} C    Umditate: {}% ".format( temperatura, umiditate))
+                
+                if(temperatura != temperatura_anterioara or umiditate != umiditate_anterioara):
+                        lista_temp.append(temperatura)
+                        lista_umid.append(umiditate)
+
+                        temperatura_anterioara = temperatura
+                        umiditate_anterioara   = umiditate
+                
+                #se asteapta 10 minute = 600 secunde
+                time.sleep(6)
+
+        print("S-a finalizat monitorizarea temperaturii si umiditatii.")
+
+        global medie_temp_final
+        global medie_umid_final  
+        
+        medie_temp_final = mean(lista_temp)
+        medie_umid_final = mean(lista_umid)
+
+
 def inchide_module():
         print("Iesire din program")
         modul_microfon.close()
@@ -64,12 +100,17 @@ def inchide_module():
         modul_lumina.close()
         modul_temperatura_umiditate.exit()
         
-(temperatura, umiditate) = citeste_temperatura_umiditate()
-print( "Temperatura: {:.1f} C    Umditate: {}% ".format( temperatura, umiditate))
+
 time.sleep(20)
+stare = threading.Event()
 start = time.perf_counter()
 
-citeste_miscare_pir()
+thread_dht = threading.Thread(target=monitorizeaza_temperatura_umiditate, args=(stare,))
+thread_dht.start()
+time.sleep(30)
+stare.set()
+thread_dht.join()
+print(f'Medie temperatura finala {medie_temp_final}, medie umiditate finala {medie_umid_final}')
 
 finish = time.perf_counter()
 print(f'Terminat in {round(finish-start,4)} secunde.')
