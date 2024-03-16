@@ -66,11 +66,11 @@ def inchide_module():
         
 (temperatura, umiditate) = citeste_temperatura_umiditate()
 print( "Temperatura: {:.1f} C    Umditate: {}% ".format( temperatura, umiditate))
-for _ in range(10):
-        if modul_microfon.value : citeste_sunet()
-        if modul_miscare_ir.value : citeste_miscare_pir()
-        if modul_vibratii.value : citeste_presiune()
-        if modul_lumina.value : citeste_lumina()
-        time.sleep(10)
+time.sleep(20)
+start = time.perf_counter()
 
+citeste_miscare_pir()
+
+finish = time.perf_counter()
+print(f'Terminat in {round(finish-start,4)} secunde.')
 inchide_module()
