@@ -63,22 +63,16 @@ def citeste_temperatura_umiditate():
 
 def monitorizeaza_temperatura_umiditate(stare):
         print("Monitorizare temperatura si umiditate.")
-        temperatura_anterioara = 0
-        umiditate_anterioara = 0
         
-        lista_temp = []
-        lista_umid = []
+        multime_temp = set()
+        multime_umid = set()
 
         while not stare.is_set():
                 (temperatura, umiditate) = citeste_temperatura_umiditate()
                 print( "Temperatura: {:.1f} C    Umditate: {}% ".format( temperatura, umiditate))
                 
-                if(temperatura != temperatura_anterioara or umiditate != umiditate_anterioara):
-                        lista_temp.append(temperatura)
-                        lista_umid.append(umiditate)
-
-                        temperatura_anterioara = temperatura
-                        umiditate_anterioara   = umiditate
+                multime_temp.add(temperatura)
+                multime_umid.add(umiditate)
                 
                 #se asteapta 10 minute = 600 secunde
                 time.sleep(6)
@@ -87,9 +81,9 @@ def monitorizeaza_temperatura_umiditate(stare):
 
         global medie_temp_final
         global medie_umid_final  
-        
-        medie_temp_final = mean(lista_temp)
-        medie_umid_final = mean(lista_umid)
+
+        medie_temp_final = mean(multime_temp)
+        medie_umid_final = mean(multime_umid)
 
 
 def inchide_module():
