@@ -7,8 +7,12 @@ import time
 
 #definirea constantelor
 TIMER_VIBRATII_SOMN_PROFUND = 1200
-VARIABILA_VIBRATII_SOMN_USOR = 5
-VARIABILA_VIBRATII_TREAZ_IN_PAT = 10
+VARIABILA_VIBRATII_SOMN_USOR = 180
+VARIABILA_VIBRATII_TREAZ_IN_PAT = 600
+
+TIMER_MISCARE_SOMN_PROFUND = 600
+VARIABILA_MISCARE_SOMN_USOR = 300
+VARIABILA_MISCARE_TREAZ_IN_PAT = 600
 
 #definirea variabilelor
 modul_miscare_ir_activat = 0
@@ -17,10 +21,12 @@ medie_umid_final = None
 secunde_luminozitate = 0
 secunde_zgomot = 0
 grad_vibratie = 2
+grad_miscare = 2
 fara_zgomot = 1
 
 #definirea moulelor cu senzori
 modul_microfon = DigitalInputDevice(23)
+modul_miscare    = MotionSensor(24)
 modul_miscare_ir = MotionSensor(25)
 modul_vibratii = DigitalInputDevice(12)
 modul_lumina = DigitalInputDevice(27)
@@ -133,6 +139,44 @@ def monitorizeaza_vibratii():
 
         print("S-a schimbat gradul de vibratii.")
         grad_vibratie = grad_curent
+
+
+def monitorizeaza_miscare():
+        print("Monitorizare nivel miscare in pat.")
+        #value = 1 miscare
+
+        global grad_miscare
+        grad_curent = grad_miscare
+
+        timpi_intre_miscari = [None] * 5
+
+        while grad_curent == grad_miscare:        
+                #in medie un om adoarme in 10 minute = 600 secunde
+                modul_miscare.wait_for_active(TIMER_MISCARE_SOMN_PROFUND)
+                if modul_miscare.value:
+                       start = time.perf_counter()
+
+                       modul_miscare.wait_for_active(TIMER_MISCARE_SOMN_PROFUND)
+                       if modul_miscare.value:
+                              timp = time.perf_counter() - start
+                              adauga_element_lista_fixa(timpi_intre_miscari, round(timp, 2))
+
+                              #determinare grad
+                              medie_timpi = mean(timpi_intre_miscari)
+                              if medie_timpi  > VARIABILA_MISCARE_TREAZ_IN_PAT:
+                                     grad_curent = 2
+                              elif  medie_timpi <  VARIABILA_MISCARE_SOMN_USOR: 
+                                     grad_curent = 1
+                       else:
+                              grad_curent = 0
+                else:    
+                        #persoana se afla in somn profund sau a parasit patul
+                        grad_curent = 0
+                #se asteapta 5 secunde
+                time.sleep(5)
+
+        print("S-a schimbat gradul de miscare.")
+        grad_miscare = grad_curent
    
 
 def monitorizeaza_lumina(stare):
