@@ -21,7 +21,7 @@ modul_temperatura_umiditate = adafruit_dht.DHT22(board.D4)
 def converteste_counter_timp(secunde):
         ore = secunde // 3600
         secunde_ramase = secunde % 3600
-        minue = secunde_ramase // 60
+        minute = secunde_ramase // 60
         secunde_ramase = secunde_ramase % 60
         return (ore, minute, secunde_ramase)
 
