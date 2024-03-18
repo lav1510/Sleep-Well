@@ -15,7 +15,9 @@ modul_miscare_ir_activat = 0
 medie_temp_final = None
 medie_umid_final = None
 secunde_luminozitate = 0
+secunde_zgomot = 0
 grad_vibratie = 2
+fara_zgomot = 1
 
 #definirea moulelor cu senzori
 modul_microfon = DigitalInputDevice(23)
@@ -38,20 +40,61 @@ def arata_timp():
         secunde = timp.tm_sec
         print("Timp {:02d}:{:02d}:{:02d}.".format(ora, minute, secunde))
 
-def citeste_sunet():
-        arata_timp()
-        print("sunet!")
+
+def adauga_element_lista_fixa(lista, element):
+        if len(lista) > 5:
+               lista.pop(0)
+        lista.append(element)
+
+
+def monitorizeaza_sunet(stare):
+        print("Monitorizarea nivelului de zgomot din camera.")
+        #value = 0 liniste, value = 1 zgomot
+        start = 0.0
+        secunde = 0.0
+        toggle = 0
+        sunet_anterior = 0
+
+        timpi_intre_zgomote = [None] * 5
+
+        #variabila pentru a sti ca s=0 in diagrama stari
+        global fara_zgomot
+        fara_zgomot = 1 
+
+        while not stare.is_set():        
+                if(modul_microfon.value and sunet_anterior == 0):
+                        start = time.perf_counter()
+                        sunet_anterior = 1
+                        fara_zgomot = 0
+                        toggle = 1
+                        continue
+
+                if( (not modul_microfon.value) and sunet_anterior == 1):        
+                        secunde += time.perf_counter() - start
+                        sunet_anterior = 0
+                        print("Liniste dupa zgomot.")
+                elif (not modul_microfon.value) and start > 600:
+                        fara_zgomot = 1
+                        
+
+                #se asteapta 5 secunde
+                time.sleep(5)
+
+        if(not toggle):
+                
+                secunde += time.perf_counter() - start
+
+        print("S-a finalizat monitorizarea nivelului de zgomot din camera.")
+
+        global secunde_zgomot
+        secunde_zgomot = round(secunde,4)
+        
         
 def citeste_miscare_pir():
         print("Se asteapta miscare PIR.")
         modul_miscare_ir.wait_for_active()
         print("PIR a detectat miscare!")
         modul_miscare_ir_activat = 1
-
-def adauga_element_lista_fixa(lista, element):
-        if len(lista) > 5:
-               lista.pop(0)
-        lista.append(element)
               
               
 def monitorizeaza_vibratii():
