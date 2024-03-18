@@ -5,11 +5,17 @@ import adafruit_dht
 import board
 import time
 
+#definirea constantelor
+TIMER_VIBRATII_SOMN_PROFUND = 1200
+VARIABILA_VIBRATII_SOMN_USOR = 5
+VARIABILA_VIBRATII_TREAZ_IN_PAT = 10
+
 #definirea variabilelor
 modul_miscare_ir_activat = 0
 medie_temp_final = None
 medie_umid_final = None
 secunde_luminozitate = 0
+grad_vibratie = 2
 
 #definirea moulelor cu senzori
 modul_microfon = DigitalInputDevice(23)
@@ -42,9 +48,49 @@ def citeste_miscare_pir():
         print("PIR a detectat miscare!")
         modul_miscare_ir_activat = 1
 
-def citeste_presiune():
-        arata_timp()
-        print("presiune!")
+def adauga_element_lista_fixa(lista, element):
+        if len(lista) > 5:
+               lista.pop(0)
+        lista.append(element)
+              
+              
+def monitorizeaza_vibratii():
+        print("Monitorizare nivel vibratie saltea.")
+        #value = 1 vibratie
+
+        global grad_vibratie
+        grad_curent = grad_vibratie
+
+        timpi_intre_vibratii = [None] * 5
+
+        while grad_curent == grad_vibratie:        
+                #in medie un om adoarme in 20 minute = 1200 secunde
+                modul_vibratii.wait_for_active(TIMER_VIBRATII_SOMN_PROFUND)
+                if modul_vibratii.value:
+                       start = time.perf_counter()
+
+                       modul_vibratii.wait_for_active(TIMER_VIBRATII_SOMN_PROFUND)
+                       if modul_vibratii.value:
+                              timp = time.perf_counter() - start
+                              adauga_element_lista_fixa(timpi_intre_vibratii, round(timp, 2))
+
+                              #determinare grad
+                              medie_timpi = mean(timpi_intre_vibratii)
+                              if medie_timpi  > VARIABILA_VIBRATII_TREAZ_IN_PAT:
+                                     grad_curent = 2
+                              elif  medie_timpi <  VARIABILA_VIBRATII_SOMN_USOR: 
+                                     grad_curent = 1
+                       else:
+                              grad_curent = 0
+                else:    
+                        #persoana se afla in somn profund sau a parasit patul
+                        grad_curent = 0
+                #se asteapta 5 secunde
+                time.sleep(5)
+
+        print("S-a schimbat gradul de vibratii.")
+        grad_vibratie = grad_curent
+   
 
 def monitorizeaza_lumina(stare):
         print("Monitorizare nivel luminozitate camera.")
