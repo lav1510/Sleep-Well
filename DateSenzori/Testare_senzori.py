@@ -6,7 +6,7 @@ import time
 #definirea moulelor cu senzori
 modul_microfon = DigitalInputDevice(23)
 modul_miscare_ir = MotionSensor(25)
-modul_presiune = DigitalInputDevice(12)
+modul_vibratii = DigitalInputDevice(12)
 modul_lumina = DigitalInputDevice(27)
 modul_temperatura_umiditate = adafruit_dht.DHT22(board.D4)
 
@@ -57,7 +57,7 @@ def inchide_module():
         print("Iesire din program")
         modul_microfon.close()
         modul_miscare_ir.close()
-        modul_presiune.close()
+        modul_vibratii.close()
         modul_lumina.close()
         modul_temperatura_umiditate.exit()
         
@@ -66,7 +66,7 @@ print( "Temperatura: {:.1f} C    Umditate: {}% ".format( temperatura, umiditate)
 for _ in range(10):
         if modul_microfon.value : citeste_sunet()
         if modul_miscare_ir.value : citeste_miscare()
-        if modul_presiune.value : citeste_presiune()
+        if modul_vibratii.value : citeste_presiune()
         if modul_lumina.value : citeste_lumina()
         time.sleep(10)
 
