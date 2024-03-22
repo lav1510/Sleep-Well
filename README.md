@@ -3,7 +3,7 @@ O aplicatie din sfera Iot care isi propune sa **monitorizeze orele de odihna** s
 
 ## Colectarea si prelucrarea datelor
 Tot proiectul se desfasoara pe o placuta de dezvoltare **Raspberry Pi 5**.
-![Schema_Fritzing](https://github.com/lav1510/Sleep-Well/assets/101553716/d1bcc265-db9e-43e4-a64b-28280e8b78af)
+![DesignCircuit](https://github.com/lav1510/Sleep-Well/assets/101553716/e3a8d53f-0ece-4f7c-82a4-f789377c10a9)
 
 
 Datele sunt colectate si prelucrate in timp real intr-un program Python, folosindu-se Threads( fire de executie).
@@ -25,5 +25,9 @@ Diagrama ER a bazei de date:
 Se folosesc platformele **Plotly** si **Dash** pentru a creea o aplicatie interactiva. Bilbioteca **Pandas** e folosita pentru a prelucra datele.
 Pentru dezvoltarea aplicatiei, pana sa se colecteze datele pentru setul propriu de date, se foloseste setul de date disponibil la adresa: 
 https://www.kaggle.com/datasets/equilibriumm/sleep-efficiency/data
+
+
+Se doreste ca aplicatia sa arate asa:
+![DesignAplicatie](https://github.com/lav1510/Sleep-Well/assets/101553716/28a85e13-0689-479c-850c-8ba1348c8da9)
 
 
