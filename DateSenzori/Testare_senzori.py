@@ -65,6 +65,9 @@ def inchide_module():
         modul_miscare_ir.close()
         modul_vibratii.close()
         modul_lumina.close()
+        modul_miscare.close()
+        led.close()
+        button.close()
         modul_temperatura_umiditate.exit()
         
 (temperatura, umiditate) = citeste_temperatura_umiditate()
@@ -75,6 +78,13 @@ for _ in range(10):
         if modul_miscare.value : citeste_miscare()
         if modul_vibratii.value : citeste_presiune()
         if not modul_lumina.value : citeste_lumina()
+        if buton.is_pressed: 
+                for _ in range (5):
+                        led.on()
+                        time.sleep(0.1)
+                        led.off()
+                        time.sleep(0.1)
+                        
         time.sleep(10)
 
 inchide_module()
