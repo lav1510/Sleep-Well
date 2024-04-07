@@ -20,33 +20,37 @@ class MonitorSunet:
     def monitorizeaza_sunet(self):
         print("Monitorizarea nivelului de zgomot din camera.")
         #value = 1 liniste, value = 0 zgomot
-        start = 0.0
         secunde_zgomot = 0.0
         toggle = False
+        #se presupune liniste in camera
         sunet_anterior = 1
+        start = None
 
         timpi_intre_zgomote = [None] * 5
 
-        while not self.stare.is_set():        
-                if(not modul_microfon.value and sunet_anterior == 1):
+        while not self.stare.is_set():  
+                self.modul_microfon.wait_for_inactive(5)
+                if not self.modul_microfon.value and sunet_anterior == 1:
                         start = time.perf_counter()
                         sunet_anterior = 0
-                        fara_zgomot = 0
-                        toggle = 1
-                        continue
-
-                if( (modul_microfon.value) and sunet_anterior == 0):        
+                        fara_zgomot = False
+                        toggle = True
+                        time.sleep(0.1)
+                        
+                elif self.modul_microfon.value and sunet_anterior == 0:        
                         secunde_zgomot += time.perf_counter() - start
                         sunet_anterior = 1
                         print("Liniste dupa zgomot.")
-                elif (modul_microfon.value) and start > 600:
-                        fara_zgomot = 1
+                elif self.modul_microfon.value and start is not None and time.perf_counter() - start > 600:
+                        fara_zgomot = True
                         
-                #se asteapta 5 secunde_zgomot
-                time.sleep(5)
+                #se asteapta 1 milisecunda
+                time.sleep(0.001)
 
-        if(not toggle):  
+        #cazul in care s-a detectat zgomot care nu s-a oprit
+        if not toggle and start is not None:  
                 secunde_zgomot += time.perf_counter() - start
+
         print(f'Numar total de secunde zgomot {secunde_zgomot}')
         print("S-a finalizat monitorizarea nivelului de zgomot din camera.")
 
@@ -61,7 +65,7 @@ if __name__ == "__main__":
 
     thread_sunet = threading.Thread(target=monitor_sunet.monitorizeaza_sunet)
     thread_sunet.start()
-    time.sleep(30)
+    time.sleep(10)
     monitor_sunet.stare.set()
     thread_sunet.join()
 
