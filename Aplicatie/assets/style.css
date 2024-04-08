@@ -48,3 +48,22 @@ body {
     margin-top: 30px;
 }
 
+.menu {
+    height: 35px;
+    width: 500px;
+    display: flex;
+    justify-content: space-evenly;
+    padding-top: 50px;
+    margin: -30px auto 0 auto;
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2);
+}
+
+.titlu-menu{
+    margin-bottom: 3 px;
+    font-weight: bold;
+    margin: -40px auto 0 auto;
+    text-align: center;
+    color: #3b6cc7;
+}
+
