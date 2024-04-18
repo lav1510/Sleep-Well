@@ -1,0 +1,69 @@
+/* assets/style.css */
+
+body {
+    margin: 0;
+    background-color: #eeeef3;
+}
+
+.header {
+    background-color: #000000;
+    height: 222px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.header-emoji {
+    font-size: 50px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.titlu-header{
+    color: #FFFFFF;
+    font-size: 50px;
+    font-weight: bold;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.descriere-header{
+    color: #d3cdcd;
+    margin: 5px auto;
+    text-align: center;
+    max-width: 390px;
+}
+
+.card {
+    margin-bottom: 25px;
+    box-shadow: 0 5px 7px 0 rgba(0, 0, 0, 0.2);
+}
+
+.wrapper {
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 1048px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-top: 30px;
+}
+
+.menu {
+    height: 35px;
+    width: 500px;
+    display: flex;
+    justify-content: space-evenly;
+    padding-top: 50px;
+    margin: -30px auto 0 auto;
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2);
+}
+
+.titlu-menu{
+    margin-bottom: 3 px;
+    font-weight: bold;
+    margin: -40px auto 0 auto;
+    text-align: center;
+    color: #3b6cc7;
+}
+
