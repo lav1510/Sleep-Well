@@ -1,6 +1,7 @@
 from gpiozero import DigitalInputDevice
 import time
 import threading
+from statistics import mean
 
 TIMER_MISCARE_SOMN_PROFUND = 600
 VARIABILA_MISCARE_SOMN_USOR = 300
@@ -71,7 +72,7 @@ if __name__ == "__main__":
     thread_miscare = threading.Thread(target=monitor_miscare_radar.monitorizeaza_miscare)
     thread_miscare.start()
     time.sleep(10)
-    modul_miscare.grad_miscare = 1 #doar pentru test
+    monitor_miscare_radar.grad_miscare = 1 #doar pentru test
     thread_miscare.join()
 
     print("Iesire din program")
