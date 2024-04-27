@@ -19,7 +19,7 @@ class MonitorVibratii():
                 raise ValueError("Gradul de vibratii poate lua valori doar {0, 1, 2}.")
 
             if not isinstance(modul_vibratii, DigitalInputDevice):
-                raise TypeError("Parametrul 'modul_vibratii' rebuie sa fie obiect de tipul DigitalInputDevice!")
+                raise TypeError("Parametrul 'modul_vibratii' trebuie sa fie obiect de tipul DigitalInputDevice!")
 
             self.grad_vibratie = grad_vibratie
             self.modul_vibratii = modul_vibratii

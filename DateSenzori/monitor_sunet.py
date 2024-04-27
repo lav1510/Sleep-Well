@@ -5,10 +5,10 @@ import threading
 class MonitorSunet:
     def __init__(self, stare: threading.Event, modul_microfon: DigitalInputDevice):
         if not isinstance(stare, threading.Event):
-            raise TypeError("Parametrul 'stare' rebuie sa fie obiect de tipul threading.Event!")
+            raise TypeError("Parametrul 'stare' trebuie sa fie obiect de tipul threading.Event!")
 
         if not isinstance(modul_microfon, DigitalInputDevice):
-            raise TypeError("Parametrul 'modul_microfon' rebuie sa fie obiect de tipul DigitalInputDevice!")
+            raise TypeError("Parametrul 'modul_microfon' trebuie sa fie obiect de tipul DigitalInputDevice!")
 
         self.secunde_zgomot = 0.0
         self.stare = stare

@@ -19,7 +19,7 @@ class MonitorMiscareRadar:
             raise ValueError("Grad miscare poate lua valori doar {0, 1, 2}.")
 
         if not isinstance(modul_miscare, DigitalInputDevice):
-            raise TypeError("Parametrul 'modul_miscare' rebuie sa fie obiect de tipul DigitalInputDevice!")
+            raise TypeError("Parametrul 'modul_miscare' trebuie sa fie obiect de tipul DigitalInputDevice!")
 
         self.grad_miscare = grad_miscare
         self.modul_miscare = modul_miscare
