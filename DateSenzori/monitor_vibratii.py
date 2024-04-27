@@ -30,7 +30,7 @@ class MonitorVibratii():
 
             timpi_intre_vibratii = [None] * 5
 
-
+            grad_curent = self.grad_vibratie
             while grad_curent == self.grad_vibratie:        
                 #in medie un om adoarme in 20 minute = 1200 secunde
                 self.modul_vibratii.wait_for_active(TIMER_VIBRATII_SOMN_PROFUND)
