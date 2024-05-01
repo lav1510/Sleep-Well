@@ -30,12 +30,12 @@ class MonitorMiscareRadar:
 
         while grad_curent == self.grad_miscare:        
                 #in medie un om adoarme in 10 minute = 600 secunde
-                modul_miscare.wait_for_active(TIMER_MISCARE_SOMN_PROFUND)
-                if modul_miscare.value:
+                self.modul_miscare.wait_for_active(TIMER_MISCARE_SOMN_PROFUND)
+                if self.modul_miscare.value:
                        start = time.perf_counter()
 
-                       modul_miscare.wait_for_active(TIMER_MISCARE_SOMN_PROFUND)
-                       if modul_miscare.value:
+                       self.modul_miscare.wait_for_active(TIMER_MISCARE_SOMN_PROFUND)
+                       if self.modul_miscare.value:
                               timp = time.perf_counter() - start
                               ut.adauga_element_lista_fixa(timpi_intre_miscari, round(timp, 2))
 
