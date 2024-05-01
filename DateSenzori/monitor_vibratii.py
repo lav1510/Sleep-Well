@@ -2,19 +2,11 @@ from gpiozero import DigitalInputDevice
 import time
 import threading
 
+import utilitare as ut
+
 TIMER_VIBRATII_SOMN_PROFUND = 1200
 VARIABILA_VIBRATII_SOMN_USOR = 180
 VARIABILA_VIBRATII_TREAZ_IN_PAT = 600
-
-#in viitor functie importata
-def adauga_element_lista_fixa(lista, element):
-        if len(lista) > 5:
-               lista.pop(0)
-        lista.append(element)
-
-def medie_ignora_none(data):
-    data = [x for x in data if x is not None]
-    return sum(data) / len(data) if data else 0
 
 class MonitorVibratii():
         def __init__(self, grad_vibratie:int, modul_vibratii: DigitalInputDevice):
@@ -44,10 +36,10 @@ class MonitorVibratii():
                        self.modul_vibratii.wait_for_active(TIMER_VIBRATII_SOMN_PROFUND)
                        if self.modul_vibratii.value:
                               timp = time.perf_counter() - start
-                              adauga_element_lista_fixa(timpi_intre_vibratii, round(timp, 2))
+                              ut.adauga_element_lista_fixa(timpi_intre_vibratii, round(timp, 2))
 
                               #determinare grad
-                              medie_timpi = medie_ignora_none(timpi_intre_vibratii)
+                              medie_timpi = ut.medie_ignora_none(timpi_intre_vibratii)
                               if medie_timpi  > VARIABILA_VIBRATII_TREAZ_IN_PAT:
                                      grad_curent = 2
                               elif  medie_timpi <  VARIABILA_VIBRATII_SOMN_USOR: 

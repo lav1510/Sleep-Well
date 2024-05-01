@@ -3,15 +3,11 @@ import time
 import threading
 from statistics import mean
 
+import utilitare as ut
+
 TIMER_MISCARE_SOMN_PROFUND = 600
 VARIABILA_MISCARE_SOMN_USOR = 300
 VARIABILA_MISCARE_TREAZ_IN_PAT = 600
-
-#in viitor functie importata
-def adauga_element_lista_fixa(lista, element):
-        if len(lista) > 5:
-               lista.pop(0)
-        lista.append(element)
 
 class MonitorMiscareRadar:
     def __init__(self, grad_miscare:int, modul_miscare: DigitalInputDevice):
@@ -41,10 +37,10 @@ class MonitorMiscareRadar:
                        modul_miscare.wait_for_active(TIMER_MISCARE_SOMN_PROFUND)
                        if modul_miscare.value:
                               timp = time.perf_counter() - start
-                              adauga_element_lista_fixa(timpi_intre_miscari, round(timp, 2))
+                              ut.adauga_element_lista_fixa(timpi_intre_miscari, round(timp, 2))
 
                               #determinare grad
-                              medie_timpi = mean(timpi_intre_miscari)
+                              medie_timpi = ut.medie_ignora_none(timpi_intre_miscari)
                               if medie_timpi  > VARIABILA_MISCARE_TREAZ_IN_PAT:
                                      grad_curent = 2
                               elif  medie_timpi <  VARIABILA_MISCARE_SOMN_USOR: 
