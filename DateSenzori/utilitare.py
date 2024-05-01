@@ -1,4 +1,5 @@
 from datetime import datetime 
+import time
 
 import configurare_mongo
 
@@ -14,6 +15,23 @@ def adauga_element_lista_fixa(lista, element):
 def medie_ignora_none(data):
     data = [x for x in data if x is not None]
     return sum(data) / len(data) if data else 0
+###################################################################################################################
+
+def joc_led(led):
+        for _ in range (5):
+                led.on()
+                time.sleep(0.1)
+                led.off()
+                time.sleep(0.1)
+
+###################################################################################################################
+
+def mod_consum_energie(buton, led):
+        print("Asteptare apasare buton...")
+        while buton.is_pressed:
+                time.sleep(1)
+        else:
+                joc_led(led)
 
 ###################################################################################################################
 
