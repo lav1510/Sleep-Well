@@ -62,13 +62,11 @@ class MonitorMiscareRadar:
 if __name__ == "__main__":
     start = time.perf_counter()
     grad_miscare = 0
-    modul_miscare = DigitalInputDevice(24)
+    modul_miscare = DigitalInputDevice(21)
     monitor_miscare_radar = MonitorMiscareRadar(grad_miscare, modul_miscare)
 
     thread_miscare = threading.Thread(target=monitor_miscare_radar.monitorizeaza_miscare)
     thread_miscare.start()
-    time.sleep(10)
-    monitor_miscare_radar.grad_miscare = 1 #doar pentru test
     thread_miscare.join()
 
     print("Iesire din program")
