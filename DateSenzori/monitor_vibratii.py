@@ -1,7 +1,6 @@
 from gpiozero import DigitalInputDevice
 import time
 import threading
-from statistics import mean
 
 TIMER_VIBRATII_SOMN_PROFUND = 1200
 VARIABILA_VIBRATII_SOMN_USOR = 180
@@ -12,6 +11,10 @@ def adauga_element_lista_fixa(lista, element):
         if len(lista) > 5:
                lista.pop(0)
         lista.append(element)
+
+def medie_ignora_none(data):
+    data = [x for x in data if x is not None]
+    return sum(data) / len(data) if data else 0
 
 class MonitorVibratii():
         def __init__(self, grad_vibratie:int, modul_vibratii: DigitalInputDevice):
@@ -31,6 +34,7 @@ class MonitorVibratii():
             timpi_intre_vibratii = [None] * 5
 
             grad_curent = self.grad_vibratie
+
             while grad_curent == self.grad_vibratie:        
                 #in medie un om adoarme in 20 minute = 1200 secunde
                 self.modul_vibratii.wait_for_active(TIMER_VIBRATII_SOMN_PROFUND)
@@ -43,7 +47,7 @@ class MonitorVibratii():
                               adauga_element_lista_fixa(timpi_intre_vibratii, round(timp, 2))
 
                               #determinare grad
-                              medie_timpi = mean(timpi_intre_vibratii)
+                              medie_timpi = medie_ignora_none(timpi_intre_vibratii)
                               if medie_timpi  > VARIABILA_VIBRATII_TREAZ_IN_PAT:
                                      grad_curent = 2
                               elif  medie_timpi <  VARIABILA_VIBRATII_SOMN_USOR: 
@@ -68,8 +72,8 @@ if __name__ == "__main__":
 
     thread_vibratie = threading.Thread(target=monitor_vibratii.monitorizeaza_vibratie)
     thread_vibratie.start()
-    time.sleep(10)
-    monitor_vibratii.grad_vibratie = 1 #doar pentru test
+    # time.sleep(10)
+    # monitor_vibratii.grad_vibratie = 1 #doar pentru test
     thread_vibratie.join()
 
     print("Iesire din program")
