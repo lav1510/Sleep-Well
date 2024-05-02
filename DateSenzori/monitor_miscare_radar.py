@@ -53,8 +53,8 @@ class MonitorMiscareRadar:
                 #se asteapta 5 secunde
                 time.sleep(5)
 
-        print(f'S-a schimbat gradul de miscare. Grad nou {grad_curent}')
-        grad_miscare = grad_curent
+        print(f'S-a schimbat gradul de miscare. ')
+        self.grad_miscare = grad_curent
 
 
 
@@ -72,6 +72,7 @@ if __name__ == "__main__":
     print("Iesire din program")
     modul_miscare.close()
     finish = time.perf_counter()
+    print(f'Grad nou {monitor_miscare_radar.grad_miscare}')
     print(f'Terminat in {round(finish-start,4)} secunde.')
         
  

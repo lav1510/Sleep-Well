@@ -64,13 +64,12 @@ if __name__ == "__main__":
 
     thread_vibratie = threading.Thread(target=monitor_vibratii.monitorizeaza_vibratie)
     thread_vibratie.start()
-    # time.sleep(10)
-    # monitor_vibratii.grad_vibratie = 1 #doar pentru test
     thread_vibratie.join()
 
     print("Iesire din program")
     modul_vibratii.close()
     finish = time.perf_counter()
+    print(monitor_vibratii.grad_vibratie)
     print(f'Terminat in {round(finish-start,4)} secunde.')
         
  

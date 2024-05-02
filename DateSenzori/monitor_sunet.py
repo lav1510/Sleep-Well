@@ -20,7 +20,6 @@ class MonitorSunet:
     def monitorizeaza_sunet(self):
         print("Monitorizarea nivelului de zgomot din camera.")
         #value = 1 liniste, value = 0 zgomot
-        secunde_zgomot = 0.0
         toggle = False
         #se presupune liniste in camera
         sunet_anterior = 1
@@ -38,7 +37,7 @@ class MonitorSunet:
                         time.sleep(0.1)
                         
                 elif self.modul_microfon.value and sunet_anterior == 0:        
-                        secunde_zgomot += time.perf_counter() - start
+                        self.secunde_zgomot += time.perf_counter() - start
                         sunet_anterior = 1
                         print("Liniste dupa zgomot.")
                 elif self.modul_microfon.value and start is not None and time.perf_counter() - start > 600:
@@ -49,9 +48,9 @@ class MonitorSunet:
 
         #cazul in care s-a detectat zgomot care nu s-a oprit
         if not toggle and start is not None:  
-                secunde_zgomot += time.perf_counter() - start
+                self.secunde_zgomot += time.perf_counter() - start
 
-        print(f'Numar total de secunde zgomot {secunde_zgomot}')
+        print(f'Numar total de secunde zgomot {self.secunde_zgomot}')
         print("S-a finalizat monitorizarea nivelului de zgomot din camera.")
 
 
@@ -72,6 +71,7 @@ if __name__ == "__main__":
     print("Iesire din program")
     modul_microfon.close()
     finish = time.perf_counter()
+    print(monitor_sunet.secunde_zgomot)
     print(f'Terminat in {round(finish-start,4)} secunde.')
         
  
