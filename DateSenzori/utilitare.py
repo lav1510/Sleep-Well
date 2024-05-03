@@ -96,7 +96,7 @@ def insereaza_baza_date(umiditate_medie, temp_medie,  ore_somn_profund, ore_somn
 
         try:
                 configurare_mongo.baza_date.insert_one(un_somn)
-                print('Inserarea datelor cu succes!')
+                print('Inserarea datelor in baza de date cu succes!')
                 afiseaza_dictionar(un_somn)
         except Exception as e:
                 print("Error:", e)
