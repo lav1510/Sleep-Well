@@ -26,10 +26,12 @@ def joc_led(led):
 ###################################################################################################################
 
 def mod_consum_energie(buton, led):
-        print("Asteptare apasare buton...")
+        print('#' * 50)
+        print("\nAsteptare apasare buton... \n")
         while buton.is_pressed:
                 time.sleep(1)
         else:
+                print("Buton apasat!\n")
                 joc_led(led)
 
 ###################################################################################################################
@@ -61,13 +63,24 @@ def calitate_somn(umiditate = 0, temperatura = 0,  ore_somn_adanc = 0, ore_somn_
     return int(puncte_umiditate + puncte_temperatura + puncte_ore_somn_adanc + puncte_ore_somn_total + puncte_lumina + puncte_sunet)
 
 ###################################################################################################################
+def afiseaza_dictionar(dictionar):
+        dictionar_afisat = 'Datele : '
+        for cheie, valoare in dictionar.items():
+                if cheie == '_id':
+                        break
+                dictionar_afisat = dictionar_afisat + f'{cheie} : {valoare}, '
+
+        dictionar_afisat = dictionar_afisat.rstrip(', ') + '.'
+        print(dictionar_afisat)
+
+
+###################################################################################################################
 
 def insereaza_baza_date(umiditate_medie, temp_medie,  ore_somn_profund, ore_somn_usor, lumina, sunet, ora_trezire, ora_culcare):
         
         ore_somn_complet = ore_somn_profund + ore_somn_usor
         calitatea_somnului = calitate_somn(umiditate = umiditate_medie, temperatura = temp_medie,  ore_somn_adanc = ore_somn_profund, ore_somn_total = ore_somn_complet, ore_lumina = lumina, ore_sunet = sunet)
 
-        print(f'Calitate somn : {calitatea_somnului}.')
         un_somn = {
         "umiditate_medie" : umiditate_medie,
         "temp_medie" : temp_medie,
@@ -83,7 +96,8 @@ def insereaza_baza_date(umiditate_medie, temp_medie,  ore_somn_profund, ore_somn
 
         try:
                 configurare_mongo.baza_date.insert_one(un_somn)
-                print("Data inserted successfully!")
+                print('Inserarea datelor cu succes!')
+                afiseaza_dictionar(un_somn)
         except Exception as e:
                 print("Error:", e)
 
