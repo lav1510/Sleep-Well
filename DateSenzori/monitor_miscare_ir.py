@@ -2,9 +2,6 @@ from gpiozero import DigitalInputDevice
 import time
 import threading
 
-#timpul maxim de asteptare dupa pir este de 5 minute
-TIMP_PIR = 30
-
 class MonitorMiscareIR:
     def __init__(self, modul_miscare_ir: DigitalInputDevice):
         if not isinstance(modul_miscare_ir, DigitalInputDevice):
@@ -17,7 +14,7 @@ class MonitorMiscareIR:
     def monitorizeaza_miscare_ir(self):
         print("Monitorizare miscare prin PIR.")
 
-        self.modul_miscare_ir.wait_for_active(TIMP_PIR)
+        self.modul_miscare_ir.wait_for_active()
         if self.modul_miscare_ir.value :
             self.modul_miscare_ir_activat = 1
             print("PIR activ.")
