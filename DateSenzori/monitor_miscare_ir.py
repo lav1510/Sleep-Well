@@ -12,6 +12,8 @@ class MonitorMiscareIR:
 
 
     def monitorizeaza_miscare_ir(self):
+        
+        time.sleep(300)
         print("Monitorizare miscare prin PIR.")
 
         self.modul_miscare_ir.wait_for_active()
