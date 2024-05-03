@@ -132,7 +132,9 @@ try:
                         #inserarea datelor in baza de date
                         ore_lumina = monitor_lumina.secunde_luminozitate // 3600
                         ore_sunet = monitor_sunet.secunde_zgomot // 3600
-                        #ut.insereaza_baza_date(umiditate_medie = monitor_temp.medie_umid_final, temp_medie = monitor_temp.medie_temp_final,  ore_somn_profund = status_somn.ore_somn_adanc, ore_somn_usor = status_somn.ore_somn_usor, lumina = ore_lumina, sunet = ore_sunet, ora_trezire = status_somn.ora_trezire, ora_culcare = status_somn.ora_culcare)
+                        ore_somn_adanc = status_somn.secunde_somn_adanc // 3600
+                        ore_somn_usor = status_somn.secunde_somn_usor // 3600
+                        ut.insereaza_baza_date(umiditate_medie = monitor_temp.medie_umid_final, temp_medie = monitor_temp.medie_temp_final,  ore_somn_profund = ore_somn_adanc, ore_somn_usor = ore_somn_usor, lumina = ore_lumina, sunet = ore_sunet, ora_trezire = status_somn.ora_trezire, ora_culcare = status_somn.ora_culcare)
 
                         #resetarea starilor claselor
                         monitor_lumina.stare.clear()
@@ -148,6 +150,11 @@ try:
                         monitor_miscare_ir.modul_miscare_ir_activat = 0
                         monitor_vibratii.grad_vibratie = 0
                         monitor_miscare_radar.grad_miscare = 0
+
+                        status_somn.ora_culcare = None
+                        status_somn.ora_trezire = None
+                        status_somn.secunde_somn_adanc = 0
+                        status_somn.secunde_somn_usor = 0
 
                 time.sleep(10)
                 raise Exception("Iesire fortata.")
