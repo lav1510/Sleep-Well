@@ -62,7 +62,7 @@ status_somn = StatusSomn()
 #pornirea programului
 start = time.perf_counter()
 
-for _ in range(2):
+for _ in range(1):
         #starea treaz in afara patului
         ut.mod_consum_energie(buton, led)
         modul_vibratii.wait_for_active(TIMP_VIBRATII_INCEPUT)
