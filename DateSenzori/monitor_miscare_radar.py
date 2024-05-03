@@ -30,12 +30,12 @@ class MonitorMiscareRadar:
 
         while grad_curent == self.grad_miscare:        
                 #in medie un om adoarme in 10 minute = 600 secunde
-                modul_miscare.wait_for_active(TIMER_MISCARE_SOMN_PROFUND)
-                if modul_miscare.value:
+                self.modul_miscare.wait_for_active(TIMER_MISCARE_SOMN_PROFUND)
+                if self.modul_miscare.value:
                        start = time.perf_counter()
 
-                       modul_miscare.wait_for_active(TIMER_MISCARE_SOMN_PROFUND)
-                       if modul_miscare.value:
+                       self.modul_miscare.wait_for_active(TIMER_MISCARE_SOMN_PROFUND)
+                       if self.modul_miscare.value:
                               timp = time.perf_counter() - start
                               ut.adauga_element_lista_fixa(timpi_intre_miscari, round(timp, 2))
 
@@ -53,8 +53,8 @@ class MonitorMiscareRadar:
                 #se asteapta 5 secunde
                 time.sleep(5)
 
-        print(f'S-a schimbat gradul de miscare. Grad nou {grad_curent}')
-        grad_miscare = grad_curent
+        print(f'S-a schimbat gradul de miscare. ')
+        self.grad_miscare = grad_curent
 
 
 
@@ -62,18 +62,17 @@ class MonitorMiscareRadar:
 if __name__ == "__main__":
     start = time.perf_counter()
     grad_miscare = 0
-    modul_miscare = DigitalInputDevice(24)
+    modul_miscare = DigitalInputDevice(21)
     monitor_miscare_radar = MonitorMiscareRadar(grad_miscare, modul_miscare)
 
     thread_miscare = threading.Thread(target=monitor_miscare_radar.monitorizeaza_miscare)
     thread_miscare.start()
-    time.sleep(10)
-    monitor_miscare_radar.grad_miscare = 1 #doar pentru test
     thread_miscare.join()
 
     print("Iesire din program")
     modul_miscare.close()
     finish = time.perf_counter()
+    print(f'Grad nou {monitor_miscare_radar.grad_miscare}')
     print(f'Terminat in {round(finish-start,4)} secunde.')
         
  
