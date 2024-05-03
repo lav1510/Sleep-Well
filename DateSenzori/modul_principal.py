@@ -97,6 +97,7 @@ try:
                 #cat timp persoana nu este treaza in afara patului( starea 0 )
                 flagtest=1
                 while flagtest != 0 :
+                # while stare_actuala != 0 :
 
                         stare_actuala = status_somn.testeaza_starea(stare_anterioara = stare_actuala, miscare_pir = monitor_miscare_ir.modul_miscare_ir_activat, grad_miscare = monitor_miscare_radar.grad_miscare, grad_vibratii = monitor_vibratii.grad_vibratie)
                         print(stare_actuala)
