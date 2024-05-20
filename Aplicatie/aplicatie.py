@@ -30,7 +30,7 @@ app.layout = html.Div(
             children=[
                 html.P(children="💤", className="header-emoji"),
                 html.H1(
-                    children="Sleep Wel", className="titlu-header"
+                    children="Sleep Well", className="titlu-header"
                 ),
                 html.P(
                     children=(
