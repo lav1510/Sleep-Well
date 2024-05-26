@@ -25,14 +25,11 @@ class MonitorSunet:
         sunet_anterior = 1
         start = None
 
-        timpi_intre_zgomote = [None] * 5
-
         while not self.stare.is_set():  
                 self.modul_microfon.wait_for_inactive(5)
                 if not self.modul_microfon.value and sunet_anterior == 1:
                         start = time.perf_counter()
                         sunet_anterior = 0
-                        fara_zgomot = False
                         toggle = True
                         time.sleep(0.1)
                         
@@ -40,11 +37,9 @@ class MonitorSunet:
                         self.secunde_zgomot += time.perf_counter() - start
                         sunet_anterior = 1
                         print("Liniste dupa zgomot.")
-                elif self.modul_microfon.value and start is not None and time.perf_counter() - start > 600:
-                        fara_zgomot = True
                         
-                #se asteapta 1 milisecunda
-                time.sleep(0.001)
+                #se asteapta 5 secunde
+                time.sleep(5)
 
         #cazul in care s-a detectat zgomot care nu s-a oprit
         if not toggle and start is not None:  
