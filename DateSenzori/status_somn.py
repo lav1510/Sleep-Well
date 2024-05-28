@@ -45,8 +45,6 @@ class StatusSomn():
                                 stare_somn = stare['somn_usor'] 
                                 self.secunde_somn_adanc += time.perf_counter() - start_profund
                                 start_usor = time.perf_counter()
-                        else:
-                                stare_somn = stare_anterioara
                         
                 case _:
                         #stare invalida

@@ -26,7 +26,7 @@ class MonitorSunet:
         start = None
 
         while not self.stare.is_set():  
-                self.modul_microfon.wait_for_inactive(5)
+                self.modul_microfon.wait_for_inactive(60)
                 if not self.modul_microfon.value and sunet_anterior == 1:
                         start = time.perf_counter()
                         sunet_anterior = 0
