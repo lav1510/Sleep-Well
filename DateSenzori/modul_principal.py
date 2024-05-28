@@ -159,8 +159,13 @@ try:
 except Exception as e:
         print("A aparut o eroare : ", e)
         
-        finish = time.perf_counter()
-        print(f'Terminat in {round(finish-start,4)} secunde.')
+        finish = round(time.perf_counter() - start, 2)
+        ore = finish // 3600
+        minute = (finish % 3600) // 60
+        secunde = finish % 60
+
+        # Afișarea rezultatului
+        print(f'Terminat in {ore} ore, {minute} minute si {secunde} secunde.')
         print('#' * 50)
         inchide_module()
         time.sleep(5)
