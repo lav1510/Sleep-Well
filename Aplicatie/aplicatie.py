@@ -11,7 +11,7 @@ client = MongoClient(configurare_mongo_privat.CONNECTION_STRING, server_api=Serv
 #confirmare conexiune
 try:
     client.admin.command('ping')
-    print("Pinged your deployment. You successfully connected to MongoDB!")
+    print("Conectare cu succes la  MongoDB!")
 except Exception as e:
     print(e)
 
@@ -28,25 +28,25 @@ app.layout = html.Div(
     children=[
         html.Div(
             children=[
-                html.P(children="💤", className="header-emoji"),
+                html.P(children="💤", className="antet-emoticon"),
                 html.H1(
-                    children="Sleep Well", className="titlu-header"
+                    children="Sleep Well", className="antet-titlu"
                 ),
                 html.P(
                     children=(
                         "Afla cat și cum dormi ca sa dormi mai mult si mai bine."
                     ),
-                    className="descriere-header",
+                    className="antet-descriere",
                 ),
             ],
-            className="header",
+            className="antet",
         ),
         html.Div(
             children=[
                 html.Div(
                     children=[
                         html.Div(
-                            children="Interval Calendaristic", className="titlu-menu"
+                            children="Interval Calendaristic", className="meniu-titlu"
                         ),
                         dcc.DatePickerRange(
                             id="interval-date",
@@ -58,7 +58,7 @@ app.layout = html.Div(
                     ]
                 ),
             ],
-            className="menu",
+            className="meniu",
         ),
         html.Div(
             children=[
@@ -75,7 +75,7 @@ app.layout = html.Div(
                     className="card",
                 ),
             ],
-            className="wrapper",
+            className="grafice",
         ),
     ]
 )
