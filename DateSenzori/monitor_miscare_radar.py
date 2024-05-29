@@ -5,9 +5,8 @@ from statistics import mean
 
 import utilitare as ut
 
-TIMER_MISCARE_SOMN_PROFUND = 600
-VARIABILA_MISCARE_SOMN_USOR = 300
-VARIABILA_MISCARE_TREAZ_IN_PAT = 600
+TIMER_MISCARE_SOMN_PROFUND = 900
+LIMITA_MISCARE_SOMN_USOR = 600
 
 class MonitorMiscareRadar:
     def __init__(self, stare: threading.Event, modul_miscare: DigitalInputDevice, grad_miscare = 0):
@@ -27,14 +26,12 @@ class MonitorMiscareRadar:
     def monitorizeaza_miscare(self):
         print("Monitorizare nivel miscare in pat.")
         #value = 1 miscare
-
         grad_curent = self.grad_miscare
-
         timpi_intre_miscari = [None] * 5
 
         while not self.stare.is_set():  
             while grad_curent == self.grad_miscare and not self.stare.is_set():        
-                    #in medie un om adoarme in 10 minute = 600 secunde
+                    #in medie un om adoarme in 15 minute = 900 secunde
                     self.modul_miscare.wait_for_active(TIMER_MISCARE_SOMN_PROFUND)
                     if self.modul_miscare.value:
                         start = time.perf_counter()
@@ -44,12 +41,15 @@ class MonitorMiscareRadar:
                                 timp = time.perf_counter() - start
                                 ut.adauga_element_lista_fixa(timpi_intre_miscari, round(timp, 2))
 
-                                #determinare grad
-                                medie_timpi = ut.medie_ignora_none(timpi_intre_miscari)
-                                if medie_timpi  > VARIABILA_MISCARE_TREAZ_IN_PAT:
-                                        grad_curent = 2
-                                elif  medie_timpi <  VARIABILA_MISCARE_SOMN_USOR: 
+                                if len(timpi_intre_miscari) == 5:
+                                    #determinare grad
+                                    medie_timpi = ut.medie_ignora_none(timpi_intre_miscari)
+                                    
+                                    if medie_timpi > LIMITA_MISCARE_SOMN_USOR:
                                         grad_curent = 1
+                                    else: 
+                                        grad_curent = 2
+                                                                            
                         else:
                                 grad_curent = 0
                     else:    
@@ -58,7 +58,7 @@ class MonitorMiscareRadar:
                     #se asteapta 5 secunde
                     time.sleep(5)
 
-            print(f'S-a schimbat gradul de miscare. ')
+            print(f'S-a schimbat gradul de miscare.')
             self.grad_miscare = grad_curent
 
         print(f'S-a finalizat monitorizarea miscari prin radar. ')

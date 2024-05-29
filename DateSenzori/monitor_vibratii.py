@@ -4,9 +4,8 @@ import threading
 
 import utilitare as ut
 
-TIMER_VIBRATII_SOMN_PROFUND = 1200
-VARIABILA_VIBRATII_SOMN_USOR = 180
-VARIABILA_VIBRATII_TREAZ_IN_PAT = 600
+TIMER_VIBRATII_SOMN_PROFUND = 900
+LIMITA_VIBRATII_SOMN_USOR = 180
 
 class MonitorVibratii():
         def __init__(self, stare: threading.Event, modul_vibratii: DigitalInputDevice, grad_vibratie = 0):
@@ -26,14 +25,12 @@ class MonitorVibratii():
         def monitorizeaza_vibratie(self):
             print("Monitorizare nivel vibratie saltea.")
             #value = 1 vibratie
-
             timpi_intre_vibratii = [None] * 5
-
             grad_curent = self.grad_vibratie
 
             while not self.stare.is_set(): 
                 while grad_curent == self.grad_vibratie and not self.stare.is_set():        
-                    #in medie un om adoarme in 20 minute = 1200 secunde
+                    #in medie un om adoarme in 15 minute = 900 secunde
                     self.modul_vibratii.wait_for_active(TIMER_VIBRATII_SOMN_PROFUND)
                     if self.modul_vibratii.value:
                         start = time.perf_counter()
@@ -45,10 +42,10 @@ class MonitorVibratii():
 
                                 #determinare grad
                                 medie_timpi = ut.medie_ignora_none(timpi_intre_vibratii)
-                                if medie_timpi  > VARIABILA_VIBRATII_TREAZ_IN_PAT:
-                                        grad_curent = 2
-                                elif  medie_timpi <  VARIABILA_VIBRATII_SOMN_USOR: 
-                                        grad_curent = 1
+                                if medie_timpi  >  LIMITA_VIBRATII_SOMN_USOR:
+                                    grad_curent = 1
+                                else: 
+                                    grad_curent = 2
                         else:
                                 grad_curent = 0
                     else:    

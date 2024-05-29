@@ -19,13 +19,13 @@ class MonitorLumina():
         print("Monitorizare nivel luminozitate camera.")
         #value = 0 lumina, value = 1 intuneric
         secunde = 0.0
-        toggle = 0
+        toggle = False
         lumina_anterior = 1
 
         while not self.stare.is_set():        
             if(self.modul_lumina.value and lumina_anterior == 0):
                     secunde += time.perf_counter() - start
-                    toggle = 1
+                    toggle = True
                     lumina_anterior = 1
                     print("Intuneric.")
                     continue
@@ -35,7 +35,7 @@ class MonitorLumina():
                     lumina_anterior = 0      
 
             #se asteapta 30 secunde
-            time.sleep(1)
+            time.sleep(30)
 
         if(not toggle):
                 secunde += time.perf_counter() - start

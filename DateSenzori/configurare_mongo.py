@@ -1,5 +1,5 @@
-from pymongo import MongoClient
-from pymongo.server_api import ServerApi
+from pymongo import MongoClient # type: ignore
+from pymongo.server_api import ServerApi # type: ignore
 
 import configurare_mongo_privat
 
@@ -7,10 +7,11 @@ import configurare_mongo_privat
 client = MongoClient(configurare_mongo_privat.CONNECTION_STRING, server_api=ServerApi('1'))
 
 # #confirmare conexiune
-# try:
-#     client.admin.command('ping')
-#     print("Pinged your deployment. You successfully connected to MongoDB!")
-# except Exception as e:
-#     print(e)
+try:
+    client.admin.command('ping')
+    print("Conectat cu succes la MongoDB!")
+except Exception as e:
+    print(e)
 
 baza_date = client['Sleep']['SleepProject']
+

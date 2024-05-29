@@ -68,7 +68,7 @@ try:
         while True:
         
                 #starea treaz in afara patului
-                ut.mod_consum_energie(buton, led)
+                ut.mod_consum_redus_energie(buton, led)
                 modul_vibratii.wait_for_active(TIMP_VIBRATII_INCEPUT)
 
                 #starea treaz in pat
@@ -95,11 +95,12 @@ try:
 
 
                 #cat timp persoana nu este treaza in afara patului( starea 0 )
-                flagtest=1
-                while flagtest != 0 :
-                # while stare_actuala != 0 :
+                while stare_actuala != 0:
 
-                        stare_actuala = status_somn.testeaza_starea(stare_anterioara = stare_actuala, miscare_pir = monitor_miscare_ir.modul_miscare_ir_activat, grad_miscare = monitor_miscare_radar.grad_miscare, grad_vibratii = monitor_vibratii.grad_vibratie)
+                        stare_actuala = status_somn.testeaza_starea(stare_anterioara = stare_actuala,
+                                                                     miscare_pir = monitor_miscare_ir.modul_miscare_ir_activat,
+                                                                     grad_miscare = monitor_miscare_radar.grad_miscare,
+                                                                     grad_vibratii = monitor_vibratii.grad_vibratie)
                         print(stare_actuala)
 
                         #sansa sa se intoarca in pat in 5 min
@@ -108,7 +109,6 @@ try:
                                 if monitor_miscare_ir.modul_miscare_ir.value :
                                         stare_actuala = 1
 
-                        flagtest = 0
                 else:
                         #odihna s-a terminat
                         #setarea starilor
@@ -156,14 +156,16 @@ try:
                         status_somn.secunde_somn_adanc = 0
                         status_somn.secunde_somn_usor = 0
 
-                time.sleep(10)
-                raise Exception("Iesire fortata.")
-
 except Exception as e:
         print("A aparut o eroare : ", e)
         
-        finish = time.perf_counter()
-        print(f'Terminat in {round(finish-start,4)} secunde.')
+        finish = round(time.perf_counter() - start, 2)
+        ore = finish // 3600
+        minute = (finish % 3600) // 60
+        secunde = finish % 60
+
+        # Afișarea rezultatului
+        print(f'Terminat in {ore} ore, {minute} minute si {secunde} secunde.')
         print('#' * 50)
         inchide_module()
         time.sleep(5)

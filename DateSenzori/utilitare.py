@@ -25,7 +25,7 @@ def joc_led(led):
 
 ###################################################################################################################
 
-def mod_consum_energie(buton, led):
+def mod_consum_redus_energie(buton, led):
         print('#' * 50)
         print("\nAsteptare apasare buton... \n")
         while buton.is_pressed:
@@ -60,7 +60,7 @@ def calitate_somn(umiditate = 0, temperatura = 0,  ore_somn_adanc = 0, ore_somn_
     puncte_lumina = 10 if ore_lumina <= PRAG_MAXIM_LUMINA_SUNET else 0
     puncte_sunet = 15 if ore_sunet <= PRAG_MAXIM_LUMINA_SUNET else 0
 
-    return int(puncte_umiditate + puncte_temperatura + puncte_ore_somn_adanc + puncte_ore_somn_total + puncte_lumina + puncte_sunet)
+    return puncte_umiditate + puncte_temperatura + puncte_ore_somn_adanc + puncte_ore_somn_total + puncte_lumina + puncte_sunet
 
 ###################################################################################################################
 def afiseaza_dictionar(dictionar):
@@ -76,10 +76,17 @@ def afiseaza_dictionar(dictionar):
 
 ###################################################################################################################
 
-def insereaza_baza_date(umiditate_medie, temp_medie,  ore_somn_profund, ore_somn_usor, lumina, sunet, ora_trezire, ora_culcare):
+def insereaza_baza_date(umiditate_medie, temp_medie,
+                          ore_somn_profund, ore_somn_usor,
+                          lumina, sunet, ora_trezire, ora_culcare):
         
         ore_somn_complet = ore_somn_profund + ore_somn_usor
-        calitatea_somnului = calitate_somn(umiditate = umiditate_medie, temperatura = temp_medie,  ore_somn_adanc = ore_somn_profund, ore_somn_total = ore_somn_complet, ore_lumina = lumina, ore_sunet = sunet)
+        calitatea_somnului = calitate_somn(umiditate = umiditate_medie,
+                                            temperatura = temp_medie,
+                                            ore_somn_adanc = ore_somn_profund,
+                                            ore_somn_total = ore_somn_complet, 
+                                            ore_lumina = lumina,
+                                            ore_sunet = sunet)
 
         un_somn = {
         "umiditate_medie" : umiditate_medie,
@@ -101,9 +108,10 @@ def insereaza_baza_date(umiditate_medie, temp_medie,  ore_somn_profund, ore_somn
         except Exception as e:
                 print("Error:", e)
 
+
 ###################################################################################################################
 
 if __name__ == "__main__":
         print(f'Calitate somn : {calitate_somn(umiditate = 50, temperatura = 16,  ore_somn_adanc = 4, ore_somn_total = 8, ore_lumina = 1)}.')
 
-        insereaza_baza_date(umiditate_medie = 50, temp_medie = 16.3,  ore_somn_profund = 8, ore_somn_usor = 4, lumina = 1, sunet = 0)
+        # insereaza_baza_date(umiditate_medie = 50, temp_medie = 16.3,  ore_somn_profund = 8, ore_somn_usor = 4, lumina = 1, sunet = 0)
