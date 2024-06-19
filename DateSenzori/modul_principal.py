@@ -139,8 +139,12 @@ try:
                         
                         #inserarea datelor in baza de date
                         if iesire_fortata:
+                                print('#' * 50)
+                                print("Iesire fortata...")
                                 print(f'Secunde lumina: {monitor_lumina.secunde_luminozitate}.')
                                 print(f'Secunde zgomot: {monitor_sunet.secunde_zgomot}.')
+                                print(f'Temperatura {monitor_temp.medie_temp_final}')
+                                print(f'Umiditate {monitor_temp.medie_umid_final}')
                         else:
                                 ore_lumina = monitor_lumina.secunde_luminozitate // 3600
                                 ore_sunet = monitor_sunet.secunde_zgomot // 3600
