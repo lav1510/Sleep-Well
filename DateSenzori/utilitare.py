@@ -16,12 +16,12 @@ def medie_ignora_none(data):
     return sum(data) / len(data) if data else 0
 ###################################################################################################################
 
-def joc_led(led):
-        for _ in range (5):
+def joc_led(led, nr, timp):
+        for _ in range (nr):
                 led.on()
-                time.sleep(0.1)
+                time.sleep(timp)
                 led.off()
-                time.sleep(0.1)
+                time.sleep(timp)
 
 ###################################################################################################################
 
@@ -32,7 +32,7 @@ def mod_consum_redus_energie(buton, led):
                 time.sleep(1)
         else:
                 print("Buton apasat!\n")
-                joc_led(led)
+                joc_led(led, 5, 0.1)
 
 ###################################################################################################################
 

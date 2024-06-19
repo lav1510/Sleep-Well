@@ -69,6 +69,7 @@ try:
         
                 #starea treaz in afara patului
                 ut.mod_consum_redus_energie(buton, led)
+                print("\nAsteptare activare senzor vibratii... \n")
                 modul_vibratii.wait_for_active(TIMP_VIBRATII_INCEPUT)
 
                 #starea treaz in pat
@@ -93,6 +94,7 @@ try:
                 thread_vibratie.start()
                 thread_pir.start()
 
+                iesire_fortata = False
 
                 #cat timp persoana nu este treaza in afara patului( starea 0 )
                 while stare_actuala != 0:
@@ -101,11 +103,17 @@ try:
                                                                      miscare_pir = monitor_miscare_ir.modul_miscare_ir_activat,
                                                                      grad_miscare = monitor_miscare_radar.grad_miscare,
                                                                      grad_vibratii = monitor_vibratii.grad_vibratie)
-                        print(stare_actuala)
+                        
+                        if not buton.is_pressed:
+                                #iesire fortata
+                                print("Iesire fortata...")
+                                iesire_fortata = True
+                                stare_actuala = 0
+                                ut.joc_led(led, 3, 1)
 
                         #sansa sa se intoarca in pat in 5 min
                         if stare_actuala == 0:
-                                monitor_miscare_ir.modul_miscare_ir.wait_for_active(TIMP_PIR)
+                                monitor_miscare_ir.modul_miscare_ir.wait_for_active(2)
                                 if monitor_miscare_ir.modul_miscare_ir.value :
                                         stare_actuala = 1
 
@@ -130,11 +138,15 @@ try:
                         time.sleep(5)
                         
                         #inserarea datelor in baza de date
-                        ore_lumina = monitor_lumina.secunde_luminozitate // 3600
-                        ore_sunet = monitor_sunet.secunde_zgomot // 3600
-                        ore_somn_adanc = status_somn.secunde_somn_adanc // 3600
-                        ore_somn_usor = status_somn.secunde_somn_usor // 3600
-                        ut.insereaza_baza_date(umiditate_medie = monitor_temp.medie_umid_final, temp_medie = monitor_temp.medie_temp_final,  ore_somn_profund = ore_somn_adanc, ore_somn_usor = ore_somn_usor, lumina = ore_lumina, sunet = ore_sunet, ora_trezire = status_somn.ora_trezire, ora_culcare = status_somn.ora_culcare)
+                        if iesire_fortata:
+                                print(f'Secunde lumina: {monitor_lumina.secunde_luminozitate}.')
+                                print(f'Secunde zgomot: {monitor_sunet.secunde_zgomot}.')
+                        else:
+                                ore_lumina = monitor_lumina.secunde_luminozitate // 3600
+                                ore_sunet = monitor_sunet.secunde_zgomot // 3600
+                                ore_somn_adanc = status_somn.secunde_somn_adanc // 3600
+                                ore_somn_usor = status_somn.secunde_somn_usor // 3600
+                                ut.insereaza_baza_date(umiditate_medie = monitor_temp.medie_umid_final, temp_medie = monitor_temp.medie_temp_final,  ore_somn_profund = ore_somn_adanc, ore_somn_usor = ore_somn_usor, lumina = ore_lumina, sunet = ore_sunet, ora_trezire = status_somn.ora_trezire, ora_culcare = status_somn.ora_culcare)
 
                         #resetarea starilor claselor
                         monitor_lumina.stare.clear()

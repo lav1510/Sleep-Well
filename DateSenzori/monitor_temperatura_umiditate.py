@@ -32,7 +32,7 @@ class MonitorTemperaturaUmiditate():
                 time.sleep(2.0)
                 continue
             except Exception as error:
-                modul_temperatura_umiditate.exit()
+                self.modul_temperatura_umiditate.exit()
                 raise error
 
             time.sleep(2.0)
