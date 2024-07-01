@@ -12,6 +12,13 @@ Codul sursă poate fi accesat la adresa: https://github.com/lav1510/Sleep-Well.
 * Instalarea Visual Studio Code pe placuta.
 * Instalarea biblioteciilor folosite
 
+
+# Demo
+Urmareste videoclipul de demonstratie de mai jos, acesta se va deschide intr-o ferestra noua de YouTube:
+
+[![Here is the Demo from YouTube](https://img.youtube.com/vi/2phneO5lEd0/maxresdefault.jpg)](https://youtu.be/2phneO5lEd0)
+
+
 # Pasii de instalare
 Inainte de rularea aplicatiei se deschide un nou terminal din desktopul placutei si se ruleaza comenzile de mai jos:
 
@@ -99,6 +106,7 @@ Pentru functionarea codului, s-a folosit **schema logica**:
 Datele sunt salvate in baza de date online **MongoDB**.
 
 Diagrama ER a bazei de date:
+
 ![DiagramaER drawio](https://github.com/lav1510/Sleep-Well/assets/101553716/203b3a4e-0d78-41ca-af83-19ee8c844ad2)
 
 
